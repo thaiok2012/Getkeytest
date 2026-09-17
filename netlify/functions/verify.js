@@ -6,11 +6,13 @@
 //   - nếu key đã gắn đúng machine_id này -> trả về "ok" (cho phép dùng lại)
 //   - nếu key đã gắn máy khác -> từ chối "device_mismatch"
 
-const { getStore } = require("@netlify/blobs");
+const { getStore, connectLambda } = require("@netlify/blobs");
 
 const APP_SECRET = process.env.APP_SECRET;
 
 exports.handler = async (event) => {
+  connectLambda(event);
+
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: JSON.stringify({ ok: false, error: "method_not_allowed" }) };
   }
