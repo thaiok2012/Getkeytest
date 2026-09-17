@@ -5,7 +5,7 @@
 // và hiển thị 1 trang HTML đơn giản cho user copy key.
 
 const crypto = require("crypto");
-const { getStore } = require("@netlify/blobs");
+const { getStore, connectLambda } = require("@netlify/blobs");
 
 function generateKey() {
   // Dạng: TTS-XXXX-XXXX-XXXX
@@ -40,6 +40,8 @@ function htmlPage(key, message) {
 }
 
 exports.handler = async (event) => {
+  connectLambda(event);
+
   const rid = event.queryStringParameters && event.queryStringParameters.rid;
 
   if (!rid) {
